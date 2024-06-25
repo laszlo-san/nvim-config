@@ -67,7 +67,7 @@ fork to your machine using one of the commands below, depending on your OS.
 <details><summary> Linux and Mac </summary>
 
 ```sh
-git clone https://github.com/nvim-lua/kickstart.nvim.git "${XDG_CONFIG_HOME:-$HOME/.config}"/nvim
+git clonegit clone https://github.com/laszlo-san/nvim-config.git "${XDG "${XDG_CONFIG_HOME:-$HOME/.config}"/nvim
 ```
 
 </details>
@@ -83,7 +83,7 @@ git clone https://github.com/laszlo-san/nvim-config.git %userprofile%\AppData\Lo
 If you're using `powershell.exe`
 
 ```
-git clone https://github.com/nvim-lua/kickstart.nvim.git $env:USERPROFILE\AppData\Local\nvim\
+git clone https://github.com/laszlo-san/nvim-config.git $env:USERPROFILE\AppData\Local\nvim\
 ```
 
 </details>
