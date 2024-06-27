@@ -59,6 +59,10 @@ vim.opt.splitbelow = true
 vim.opt.list = true
 vim.opt.listchars = { tab = '» ', trail = '·', nbsp = '␣' }
 
+-- tabwidths
+vim.opt.tabstop = 2
+vim.opt.shiftwidth = 2
+
 -- Preview substitutions live, as you type!
 vim.opt.inccommand = 'split'
 
@@ -138,7 +142,8 @@ function FormatAndRestore()
   vim.fn.setpos('.', currPos)
 end
 
-vim.api.nvim_set_keymap('n', '<C-I>', ':lua FormatAndRestore()<CR>', { noremap = true, silent = true })
+-- vim.api.nvim_set_keymap('n', '<C-i>', ':lua FormatAndRestore()<CR>', { noremap = true, silent = true })
+-- vim.api.nvim_set_keymap('n', '<C-I>', ':PrettierAsync<CR>', { noremap = true, silent = true })
 
 -- [[ Configure and install plugins ]]
 --
@@ -154,6 +159,29 @@ vim.api.nvim_set_keymap('n', '<C-I>', ':lua FormatAndRestore()<CR>', { noremap =
 
 -- NOTE: Here is where you install your plugins.
 require('lazy').setup({
+  -- lspconfig
+  {
+    'neovim/nvim-lspconfig',
+    config = function()
+      local lspconfig = require 'lspconfig'
+
+      --Enable (broadcasting) snippet capability for completion
+      local capabilities = vim.lsp.protocol.make_client_capabilities()
+      capabilities.textDocument.completion.completionItem.snippetSupport = true
+      print 'yoloy'
+      lspconfig.html.setup {
+        capabilities = capabilities,
+      }
+    end,
+  },
+  -- prettier
+  {
+    'prettier/vim-prettier',
+    run = 'yarn install',
+    ft = { 'javascript', 'typescript', 'javascriptreact', 'typescriptreact', 'css', 'less', 'scss', 'json', 'graphql', 'markdown', 'vue', 'yaml', 'html' },
+    cmd = { 'Prettier', 'PrettierAsync' },
+  },
+
   -- Copilot
   {
     'zbirenbaum/copilot-cmp',
@@ -242,6 +270,17 @@ require('lazy').setup({
         ['<leader>w'] = { name = '[W]orkspace', _ = 'which_key_ignore' },
         ['<leader>t'] = { name = '[T]oggle', _ = 'which_key_ignore' },
         ['<leader>h'] = { name = 'Git [H]unk', _ = 'which_key_ignore' },
+      }
+
+      -- gitsigns keybinds
+      require('which-key').register {
+        ['<leader>hs'] = { "<cmd>lua require('gitsigns').stage_hunk()<cr>", '[S]tage Hunk' },
+        ['<leader>hu'] = { "<cmd>lua require('gitsigns').undo_stage_hunk()<cr>", '[U]ndo Stage Hunk' },
+        ['<leader>hr'] = { "<cmd>lua require('gitsigns').reset_hunk()<cr>", '[R]eset Hunk' },
+        ['<leader>hp'] = { "<cmd>lua require('gitsigns').preview_hunk()<cr>", '[P]review Hunk' },
+        ['<leader>hb'] = { "<cmd>lua require('gitsigns').blame_line()<cr>", '[B]lame Line' },
+        ['<leader>hf'] = { "<cmd>lua require('gitsigns').diffthis('~1')<cr>", 'Di[f]f This File' },
+        ['<leader>hn'] = { "<cmd>lua require('gitsigns').next_hunk()<cr>", '[N]ext Hunk' },
       }
       -- visual mode
       require('which-key').register({
