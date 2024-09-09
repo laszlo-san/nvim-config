@@ -220,8 +220,21 @@ require('lazy').setup({
           api.config.mappings.default_on_attach(bufnr)
 
           -- custom mappings
-          vim.keymap.set('n', '<C-e>', ':NvimTreeToggle<CR>', { desc = 'Toggle [N]vim Tree' })
+          vim.keymap.set('n', '<C-e>', ':NvimTreeToggle<CR>', { silent = true, noremap = true, desc = 'nvim tree: Toggle [N]vim Tree' })
         end,
+        update_cwd = true,
+        filters = {
+          dotfiles = false,
+          custom = { '^.git$' },
+          exclude = { '.gitignore$', '^\\.env' },
+        },
+        update_focused_file = {
+          enable = true,
+          update_cwd = true,
+        },
+        diagnostics = {
+          enable = true,
+        },
       }
     end,
   },
